@@ -1,0 +1,27 @@
+name: Run Gradle Tests
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:  # 手動実行ボタン
+  pull_request:       # PR 時にも実行したい場合は残す
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21   # 必要なバージョンに変更
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run tests
+        run: ./gradlew test
